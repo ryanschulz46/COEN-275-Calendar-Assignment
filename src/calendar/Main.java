@@ -10,7 +10,7 @@ public class Main {
 		* UHD 3840 x 2160: Recommend 1500 
 		*/
 		
-		final int squareSize = 1000;
-		new Calendar(squareSize); //Creates a Calendar JFrame
+		GuiManager gui = new GuiManager(); 
+		gui.resizeWeek();
 	}
 }

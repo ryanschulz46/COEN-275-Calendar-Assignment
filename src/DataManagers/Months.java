@@ -1,4 +1,4 @@
-package calendar;
+package DataManagers;
 
 /*
  * This class simply stores the abbreviations and total number of days in each month
@@ -7,10 +7,12 @@ package calendar;
 public class Months {
 	private String month;
 	private int days;
+	private int monthNum;
 	
-	public Months(String monthAbbrev, int numOfDays) {
+	public Months(String monthAbbrev, int numOfDays, int monthNum) {
 		month = monthAbbrev; //Abbreviation of the month
 		days = numOfDays; //Total number of days in each month	
+		this.monthNum = monthNum;
 	}
 
 	public String getMonth() {
@@ -21,4 +23,7 @@ public class Months {
 		return days;
 	}
 
+	public int getMonthNum() {
+		return monthNum;
+	}
 }

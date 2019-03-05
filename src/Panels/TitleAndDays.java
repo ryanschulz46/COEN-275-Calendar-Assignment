@@ -1,14 +1,16 @@
-package calendar;
+package Panels;
 import java.awt.*;
 import javax.swing.*;
 
+import calendar.DimensionManager;
+
 public class TitleAndDays extends JPanel {
-	TitleAndDays(double CellX)
+	
+	public TitleAndDays(DimensionManager dim)
 	{
 
 		//Create dimension using passed through value to size this JPanel
-		Dimension cellDimension = new Dimension();
-		cellDimension.setSize(CellX, 100.00);
+
 		
 		this.setLayout(new GridLayout(1,7));
 
@@ -55,7 +57,7 @@ public class TitleAndDays extends JPanel {
 		for (int i = 0; i < 7; i++) {
 			daysCell[i] = new JPanel();
 			daysCell[i].setLayout(new BorderLayout());
-			daysCell[i].setPreferredSize(cellDimension);
+			daysCell[i].setPreferredSize(dim.topBarSize);
 			daysLabel[i].setForeground(Color.WHITE);
 			daysCell[i].setBackground(Color.BLACK);
 			
@@ -66,7 +68,7 @@ public class TitleAndDays extends JPanel {
 			 */
 			
 			if (i == 3) {
-				daysCell[3].add(title,BorderLayout.NORTH);
+				daysCell[3].add(title,BorderLayout.CENTER);
 			}
 			daysCell[i].add(daysLabel[i],BorderLayout.SOUTH);
 			//Adds each array incrementally to the grid
