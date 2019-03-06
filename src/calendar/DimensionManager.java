@@ -41,14 +41,6 @@ public class DimensionManager {
 	
 	public DimensionManager() {
 		
-		calendarX = 1000;
-		dateY = 25;
-		eventY = 75;
-		topBarY =  100;
-		sideX = 1000;
-		
-		
-
 		topBarSize = new Dimension();
 		dateCell = new Dimension();
 		eventCell = new Dimension();
@@ -58,13 +50,38 @@ public class DimensionManager {
 		sidePanelSize = new Dimension();
 		
 		
-		this.refreshDim();
-		
+		this.yearView();
 	}
 	
 	
 	public void weekView() {
 		eventY = calendarY - dateY;
+		cellX = calendarX/7;
+		this.refreshDim();
+	}
+	
+	public void dayView() {
+		cellX= calendarX;
+		eventY = calendarY - dateY;
+		this.refreshDim();
+	}
+	
+	public void yearView() {
+		/* 
+		* squareSize is used to set the X and Y size of the JFrame.
+		* Recommended to be at least 1000
+		* HD 1920 x 1080: Recommend 1000
+		* UHD 3840 x 2160: Recommend 1500 
+		*/
+		
+		
+		
+		calendarX = 900;
+		dateY = 25;
+		eventY = 75;
+		topBarY =  100;
+		sideX = 500;
+		cellX = calendarX/7;
 		this.refreshDim();
 	}
 	
@@ -75,7 +92,6 @@ public class DimensionManager {
 		titleX = calendarX;
 		topBarX = calendarX;
 		cellY = dateY + eventY;
-		cellX = calendarX/7;
 		frameY = calendarY + topBarY;
 		frameX = calendarX + sideX;
 		sideY = frameY;

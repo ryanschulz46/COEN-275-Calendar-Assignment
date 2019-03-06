@@ -173,7 +173,29 @@ public class GridCal extends JPanel {
 		
 		for(int i= 0; i< 367; i++) {
 			dateAndEvent[i].setPreferredSize(dim.gridCell);
-			eventSquare[i] = new EventSquare(dim.eventCell);
+			eventSquare[i].setPreferredSize(dim.eventCell);
+			dateAndEvent[i].revalidate();
+			eventSquare[i].revalidate();
+		}
+	}
+	
+	public void changeToYear() {
+		dim.yearView();
+		
+		for(int i= 0; i< 367; i++) {
+			dateAndEvent[i].setPreferredSize(dim.gridCell);
+			eventSquare[i].setPreferredSize(dim.eventCell);
+			dateAndEvent[i].revalidate();
+			eventSquare[i].revalidate();
+		}
+	}
+	
+	public void changeToDay() {
+		dim.dayView();
+		
+		for(int i= 0; i< 367; i++) {
+			dateAndEvent[i].setPreferredSize(dim.gridCell);
+			eventSquare[i].setPreferredSize(dim.eventCell);
 			dateAndEvent[i].revalidate();
 			eventSquare[i].revalidate();
 		}

@@ -40,7 +40,7 @@ public class GuiManager {
 		allDays = new GridCal(dimAll); 
 		scrollableDays = new JScrollPane(allDays);
 		scrollableDays.getVerticalScrollBar().setUnitIncrement(16);
-		
+		//scrollableDays.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 		
 		
 		calendar = new JPanel();
@@ -53,7 +53,7 @@ public class GuiManager {
 		
 		
 		//Initialize side panel
-		side = new SidePanel(dimAll);
+		side = new SidePanel(dimAll, this);
 
 		
 		
@@ -74,5 +74,18 @@ public class GuiManager {
 		window.pack();
 	}
 	
+	public void resizeYear() {
+		allDays.changeToYear();
+		scrollableDays.getVerticalScrollBar().setUnitIncrement(16);
+		scrollableDays.revalidate();
+		window.pack();
+	}
+	
+	public void resizeDay() {
+		allDays.changeToDay();
+		scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.calendarY);
+		scrollableDays.revalidate();
+		window.pack();
+	}
 	
 }

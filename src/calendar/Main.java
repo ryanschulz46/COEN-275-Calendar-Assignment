@@ -11,6 +11,5 @@ public class Main {
 		*/
 		
 		GuiManager gui = new GuiManager(); 
-		gui.resizeWeek();
 	}
 }
