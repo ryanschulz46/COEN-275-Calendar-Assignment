@@ -15,11 +15,11 @@ public class GridCal extends JPanel {
 	public JPanel[] dateAndEvent;
 	public HolidayManager holidays;
 
-	public Months[] monthData;
+	public static Months[] monthData;
 	public CalendarSquare[] dateSquare;
 	public int counter;
 	public int holidayCheck;
-	public CalendarSquare[] eventSquare;
+	public static CalendarSquare[] eventSquare;
 	public DimensionManager dim;
 	
 	

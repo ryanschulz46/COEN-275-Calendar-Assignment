@@ -11,6 +11,11 @@ public class DimensionManager {
 	public Dimension JFrameSize;
 	public Dimension sidePanelSize;
 	public Dimension topBarSize;
+	public Dimension button;
+	public Dimension history;
+	public Dimension inputEvent;
+	public Dimension inputDate;
+	
 	
 	double frameX;//
 	double frameY;//
@@ -36,7 +41,17 @@ public class DimensionManager {
 	double sideX;//
 	double sideY;//
 	
+	double inputTextY;
+	double inputTextX;
 	
+	double inputDateY;
+	double inputDateX;
+	
+	double historyY;
+	double historyX;
+	
+	double buttonY;
+	double buttonX;
 	
 	
 	public DimensionManager() {
@@ -48,6 +63,11 @@ public class DimensionManager {
 		calendarSize = new Dimension();
 		JFrameSize = new Dimension();
 		sidePanelSize = new Dimension();
+		button = new Dimension();
+		inputEvent = new Dimension();
+		inputDate = new Dimension();
+		history = new Dimension();
+		
 		
 		
 		this.yearView();
@@ -82,6 +102,15 @@ public class DimensionManager {
 		topBarY =  100;
 		sideX = 500;
 		cellX = calendarX/7;
+		
+		buttonY = 50;
+		buttonX= 100;
+		
+		
+		inputDateY = 100;
+		
+
+		
 		this.refreshDim();
 	}
 	
@@ -96,6 +125,11 @@ public class DimensionManager {
 		frameX = calendarX + sideX;
 		sideY = frameY;
 		titleY =  topBarY - dateY;
+		inputTextX = sideX*.5;
+		inputDateX = sideX*.5;
+		inputTextY = sideY*.2;
+		historyX= sideX*.5;
+		historyY= sideY*.2;
 		
 		
 		topBarSize.setSize(cellX, topBarY);

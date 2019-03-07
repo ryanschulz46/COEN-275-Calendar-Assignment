@@ -5,6 +5,7 @@ import java.awt.Dimension;
 
 import javax.swing.*;
 
+import DataManagers.Node;
 import Panels.GridCal;
 import Panels.SidePanel;
 import Panels.TitleAndDays;
@@ -17,6 +18,7 @@ public class GuiManager {
 	public TitleAndDays topBar;
 	public GridCal allDays;
 	public JScrollPane scrollableDays;
+	public JScrollPane scrollableSide;
 	public static DimensionManager dimAll;
 
 	
@@ -53,14 +55,15 @@ public class GuiManager {
 		
 		
 		//Initialize side panel
-		side = new SidePanel(dimAll, this);
-
+		side = new SidePanel(this);
+		scrollableSide = new JScrollPane(side);
+		scrollableSide.getVerticalScrollBar().setUnitIncrement(16);
 		
 		
 		///Add Calendar and Side Panel to the JFrame!
 		window = new JFrame();
 		window.setLayout(new BorderLayout());
-		window.add(side, BorderLayout.EAST);
+		window.add(scrollableSide, BorderLayout.EAST);
 		window.add(calendar, BorderLayout.CENTER);
 		window.pack();
 		window.setResizable(false);
@@ -69,6 +72,8 @@ public class GuiManager {
 
 	public void resizeWeek() {
 		allDays.changeToWeek();
+		topBar.showDays();
+		topBar.revalidate();
 		scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.calendarY);
 		scrollableDays.revalidate();
 		window.pack();
@@ -76,6 +81,8 @@ public class GuiManager {
 	
 	public void resizeYear() {
 		allDays.changeToYear();
+		topBar.showDays();
+		topBar.revalidate();
 		scrollableDays.getVerticalScrollBar().setUnitIncrement(16);
 		scrollableDays.revalidate();
 		window.pack();
@@ -83,9 +90,15 @@ public class GuiManager {
 	
 	public void resizeDay() {
 		allDays.changeToDay();
+		topBar.hideDays();
+		topBar.revalidate();
 		scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.calendarY);
 		scrollableDays.revalidate();
 		window.pack();
+	}
+	
+	public void addNode(Node add) {
+		allDays.eventSquare[add.location].listModel.addElement(add.event);
 	}
 	
 }

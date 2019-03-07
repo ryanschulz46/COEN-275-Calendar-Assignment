@@ -3,14 +3,23 @@ import java.awt.*;
 import javax.swing.*;
 
 import calendar.DimensionManager;
+import calendar.GuiManager;
 
 public class TitleAndDays extends JPanel {
+	
+	JLabel[] daysLabel;
+	JPanel[] daysCell;
+	ImageIcon imageIcon;
+	JLabel label;
+	JLabel calTitle;
+	JPanel title;
+	
 	
 	public TitleAndDays(DimensionManager dim)
 	{
 
 		//Create dimension using passed through value to size this JPanel
-
+		
 		
 		this.setLayout(new GridLayout(1,7));
 
@@ -24,27 +33,35 @@ public class TitleAndDays extends JPanel {
 		 * https://www.logolynx.com/images/logolynx/84/84318b8a8ace2c7b1e84a65c2c929476.png
 		 */
 		
-		ImageIcon imageIcon = new ImageIcon(new ImageIcon("images/sculogo.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT));
-		JLabel label = new JLabel(imageIcon);
+		imageIcon = new ImageIcon(new ImageIcon("images/sculogo.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT));
+		label = new JLabel(imageIcon);
 		
-		JLabel calTitle = new JLabel("2019");
+		calTitle = new JLabel("2019");
 		calTitle.setForeground(Color.WHITE);
 	
 		//Combines both Logo and 2019 Title JPanel into a new JPanel
-		JPanel title = new JPanel();
+		title = new JPanel();
 		title.setLayout(new FlowLayout());
 		title.setBackground(Color.BLACK);
 		title.setForeground(Color.WHITE);
 		title.add(label);
 		title.add(calTitle);
 		
+		initializeDays();
+
+	}
+	
+	public void initializeDays() {
+		
+		
 		/*
 		 * Initialize the JLabels for each day
 		 * Create daysCell, which are JPanels that the JLabels will be added to
 		 */
 		
-		JPanel[] daysCell = new JPanel[7];
-		JLabel[] daysLabel = new JLabel[7];
+		daysCell = new JPanel[7];
+		daysLabel = new JLabel[7];
+	
 		daysLabel[0] = new JLabel("Sunday", SwingConstants.CENTER);
 		daysLabel[1]= new JLabel("Monday", SwingConstants.CENTER);
 		daysLabel[2] = new JLabel("Tuesday", SwingConstants.CENTER);
@@ -57,7 +74,7 @@ public class TitleAndDays extends JPanel {
 		for (int i = 0; i < 7; i++) {
 			daysCell[i] = new JPanel();
 			daysCell[i].setLayout(new BorderLayout());
-			daysCell[i].setPreferredSize(dim.topBarSize);
+			daysCell[i].setPreferredSize(GuiManager.dimAll.topBarSize);
 			daysLabel[i].setForeground(Color.WHITE);
 			daysCell[i].setBackground(Color.BLACK);
 			
@@ -68,11 +85,23 @@ public class TitleAndDays extends JPanel {
 			 */
 			
 			if (i == 3) {
-				daysCell[3].add(title,BorderLayout.CENTER);
+				daysCell[3].add(title,BorderLayout.NORTH);
 			}
 			daysCell[i].add(daysLabel[i],BorderLayout.SOUTH);
 			//Adds each array incrementally to the grid
 			this.add(daysCell[i]);
+		}
+	}
+	
+	public void showDays() {
+		for (int i = 0; i < 7; i++) {
+			daysLabel[i].setVisible(true);
+		}
+	}
+	
+	public void hideDays() {
+		for (int i = 0; i < 7; i++) {
+			daysLabel[i].setVisible(false);
 		}
 	}
 
