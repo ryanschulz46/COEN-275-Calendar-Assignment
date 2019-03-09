@@ -1,101 +1,125 @@
 package Panels;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import DataManagers.ColorManager;
 import DataManagers.Node;
 import calendar.GuiManager;
 
-public class History extends JPanel{
-	
-	
-	
-	public GuiManager gui;
-	
-	public JTextField eventTextField;
-	public JScrollPane eventScroll;
-	public JFormattedTextField dateTextField;
-	public JComboBox<String> colorBox;
-	public ColorManager colorOptions;
-	
-	public JButton addButton;
-	
-	public JList historyList;
-	public JScrollPane historyListScroll;
-	public DefaultListModel listModel;
-	
-	public int month;
-	public int day;
-	public int year;
-	
-	public JButton deleteButton;
-	
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
+public class History extends JPanel{
+	private JTextField eventTextField;
+	private JFormattedTextField dateTextField;
+	private JComboBox<String> colorBox;
+	private ColorManager colorOptions;
+	private DefaultListModel listModel;
+	private JList historyList;
+	private GuiManager gui;
+	private int month;
+	private int year;
+	private int day;
+	
 	public History(GuiManager gui) {
 		this.gui = gui;
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		setLayout(null);
+		
+		JLabel lblEventName = new JLabel("Event Name:");
+		lblEventName.setBounds(37, 26, 121, 38);
+		
+		add(lblEventName);
+		
+		eventTextField = new JTextField();
+		eventTextField.setBounds(37, 74, 116, 22);
+		add(eventTextField);
+		eventTextField.setColumns(10);
 		
 		
-		//initialize textfield
-		eventTextField = new JTextField("Enter event name");
-		eventTextField.setSize(GuiManager.dimAll.inputEvent);
-		eventScroll = new JScrollPane(eventTextField);
-		
-		//initialize date field
 		DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 		dateTextField = new JFormattedTextField(format);
-		dateTextField.setPreferredSize(GuiManager.dimAll.inputDate);
-		
-		//initialize color list
-		String[] colorList = {"Red", "Yellow", "Green", "White", "Black"};
-		colorBox = new JComboBox<String>(colorList);
-		colorBox.setPreferredSize(GuiManager.dimAll.inputDate);
-		colorBox.setSelectedIndex(4);
-		colorOptions = new ColorManager();
-		
-		//initialize history list
-		listModel = new DefaultListModel();
-		historyList = new JList(listModel);
-		historyList.setSize(GuiManager.dimAll.history);
-		historyListScroll = new JScrollPane(historyList);
+		dateTextField.setSize(GuiManager.dimAll.inputDate);
+		dateTextField.setBounds(37, 151, 116, 22);
+		add(dateTextField);
+		dateTextField.setColumns(10);
 		
 		
-		//initialize add button
 		
-		addButton = new JButton("Add");
-		addButton.setSize(GuiManager.dimAll.button);
-		addButton.addActionListener(new ActionListener() {
+		JLabel lblEventDate = new JLabel("Event Date");
+		lblEventDate.setBounds(37, 122, 140, 16);
+		add(lblEventDate);
+		
+		
+		
+		
+		
+		JButton btnAddEvent = new JButton("Add Event");
+		btnAddEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String eventString = eventTextField.getText();
 				String dateString = dateTextField.getText();
 				dateString = dateValidator(dateString);
+				if (dateString == "error") return;
 				int i = getiValue(month,day,year);
 				String colorHex = colorOptions.getColor((String) colorBox.getSelectedItem());
 				Node newEvent = new Node(dateString, eventString, i, colorHex);
+				
+				
 				addNode(newEvent);
 			}
 		});
-
+		btnAddEvent.setBounds(253, 150, 97, 25);
+		add(btnAddEvent);
 		
-		//initialize delete button
-		deleteButton = new JButton("Delete");
-		deleteButton.setSize(GuiManager.dimAll.button);
-		deleteButton.addActionListener(new ActionListener() {
+		
+		
+		
+		String[] colorList = {"Red", "Yellow", "Green", "White", "Black"};
+		colorOptions = new ColorManager();
+		colorBox = new JComboBox(colorList);
+		colorBox.setSelectedIndex(4);
+		colorBox.setBounds(240, 74, 134, 22);
+		add(colorBox);
+		
+		JLabel lblEventTextColor = new JLabel("Event Text Color:");
+		lblEventTextColor.setBounds(230, 37, 120, 27);
+		add(lblEventTextColor);
+		
+		
+		
+		
+//		JList list = new JList();
+//		list.setBounds(37, 247, 325, 371);
+//		add(list);
+		listModel = new DefaultListModel();
+		historyList = new JList(listModel);
+		historyList.setSize(GuiManager.dimAll.history);
+		JScrollPane historyListScroll = new JScrollPane(historyList);
+		historyListScroll.setBounds(37, 247, 325, 171);
+		add(historyListScroll);
+		
+		
+		
+		
+		JLabel lblEventHistory = new JLabel("Event History");
+		lblEventHistory.setBounds(44, 218, 133, 16);
+		add(lblEventHistory);
+		
+		
+		
+		JButton btnDeleteSelectedEvent = new JButton("Delete Selected Event");
+		btnDeleteSelectedEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int selectedIndex = historyList.getSelectedIndex();
 					if(selectedIndex != -1) {
@@ -104,17 +128,36 @@ public class History extends JPanel{
 			}
 			
 		});
+		btnDeleteSelectedEvent.setBounds(102, 441, 178, 25);
 		
-		this.add(eventScroll);
-		this.add(dateTextField);
-		this.add(colorBox);
-		this.add(addButton);
-		this.add(historyListScroll);
-		this.add(deleteButton);
-		this.setSize(new Dimension(300,500));
-	}	
+		add(btnDeleteSelectedEvent);
 		
 		
+		JButton btnLarger = new JButton("Increase Size");
+		btnLarger.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GuiManager.dimAll.changeSize(50);
+			}
+			
+		});
+		btnLarger.setBounds(102, 650, 178, 25);
+		add(btnLarger);
+		
+		
+		JButton btnSmaller = new JButton("Decrease Size");
+		btnSmaller.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GuiManager.dimAll.changeSize(-50);
+			}
+			
+		});
+		btnSmaller.setBounds(102, 700, 178, 25);
+		add(btnSmaller);
+	}
+	
+	
+	
+	
 	public void removeNode(int index) {
 		Node toRemove = (Node) listModel.getElementAt(index);
 		gui.removeNode(toRemove);
@@ -124,9 +167,12 @@ public class History extends JPanel{
 	}
 	
 	public void addNode(Node add) {
+		if(!gui.addNode(add)) {
+			return;
+		}
 		listModel.addElement(add);
 		this.revalidate();
-		gui.addNode(add);
+
 	}
 	
 	
@@ -135,17 +181,23 @@ public class History extends JPanel{
 	
 	public String dateValidator(String checkString) {
 		
+		try {
 		month = Integer.parseInt(checkString.substring(0, 2));
 		day = Integer.parseInt(checkString.substring(3, 5));
 		year = Integer.parseInt(checkString.substring(6, 10));
+		}
+		catch(Exception e) {
+			gui.displayError("No date entered.");
+			return ("error");
+		
+		}
 
 		if (year == 2018 && month == 12 && (day == 30 || day == 31) || (year == 2019 )) {
 			return checkString;
 		}
 		else {
-			year = 2019;
-			gui.displayError("Error: Date is not a valid value for this 2019 calendar. Changing year to 2019");
-			return (checkString.substring(0,6) + 2019);
+			gui.displayError("Error: Date is not a valid value for this 2019 calendar.");
+			return("error");
 		}
 	}
 	
@@ -182,10 +234,4 @@ public class History extends JPanel{
 		return --counter;
 		
 	}
-
-
-
-
-	
-
 }

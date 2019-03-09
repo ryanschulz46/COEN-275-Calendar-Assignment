@@ -6,6 +6,7 @@ public class DateSquare extends CalendarSquare {
 	
 	public DateSquare(Dimension cellSize){
 		super(cellSize);
+		add(list);
 		this.setBackground(Color.WHITE);
 	}
 }

@@ -2,6 +2,8 @@ package DataManagers;
 
 import java.awt.Dimension;
 
+import calendar.GuiManager;
+
 public class DimensionManager {
 
 	public Dimension dateCell;
@@ -52,9 +54,12 @@ public class DimensionManager {
 	
 	public double buttonY;
 	public double buttonX;
+	public GuiManager gui;
 	
 	
-	public DimensionManager() {
+	public DimensionManager(GuiManager gui) {
+		
+		this.gui = gui;
 		
 		topBarSize = new Dimension();
 		dateCell = new Dimension();
@@ -86,6 +91,20 @@ public class DimensionManager {
 		this.refreshDim();
 	}
 	
+	public void changeSize(int x) {
+		if ((calendarX + x) < 700) {
+			gui.displayError("Cannot make the GUI any smaller");
+			return;
+		}
+		calendarX += x;
+		
+		
+		this.refreshDim();
+		gui.refresh();
+		
+		
+	}
+	
 	public void yearView() {
 		/* 
 		* squareSize is used to set the X and Y size of the JFrame.
@@ -96,11 +115,11 @@ public class DimensionManager {
 		
 		
 		
-		calendarX = 1500;
+		calendarX = 700;
 		dateY = 25;
 		eventY = calendarX/7 - dateY;
 		topBarY =  100;
-		sideX = 500;
+		sideX = 400;
 		cellX = calendarX/7;
 		
 		buttonY = 50;
@@ -125,18 +144,18 @@ public class DimensionManager {
 		frameX = calendarX + sideX;
 		sideY = frameY;
 		titleY =  topBarY - dateY;
-		inputTextX = sideX*.8;
+		inputTextX = sideX*.5;
 		inputDateX = sideX*.8;
 		inputTextY = sideY*.2;
 		historyX= sideX*.8;
-		historyY= sideY*.2;
+		historyY= sideY*.8;
 		
 		
 		topBarSize.setSize(cellX, topBarY);
 		dateCell.setSize(cellX, dateY);
 		eventCell.setSize(cellX, eventY);
 		gridCell.setSize(cellX, cellY);
-		calendarSize.setSize(calendarX, calendarY);
+		calendarSize.setSize(calendarX + 48, calendarY);
 		JFrameSize.setSize(frameX, frameY);
 		sidePanelSize.setSize(sideX, sideY);
 		inputDate.setSize(inputDateX, inputDateY);

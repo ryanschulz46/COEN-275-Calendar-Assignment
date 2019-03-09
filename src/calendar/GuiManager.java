@@ -18,8 +18,6 @@ public class GuiManager {
 	public JScrollPane scrollableDays;
 	public JScrollPane scrollableSide;
 	public static DimensionManager dimAll;
-
-	
 	
 	
 	
@@ -30,7 +28,7 @@ public class GuiManager {
 		
 		
 		//Create dimensionManager to handle all dimensions of all JPanels and JFrame
-		dimAll = new DimensionManager();
+		dimAll = new DimensionManager(this);
 		
 		//Initialize topBar and the grid of days, and combine into one JPanel, Calendar
 		topBar= new TitleAndDays(dimAll);
@@ -48,7 +46,6 @@ public class GuiManager {
 		calendar.add(topBar, BorderLayout.NORTH);
 		calendar.add(scrollableDays, BorderLayout.CENTER); 
 		calendar.setPreferredSize(dimAll.calendarSize);
-		
 		
 		
 		
@@ -73,6 +70,9 @@ public class GuiManager {
 	//functions called for resizing grid
 
 	public void resizeWeek() {
+		allDays.removeLabels();
+		allDays.addLabelsDate();
+		allDays.revalidate();
 		allDays.changeToWeek();
 		topBar.showDays();
 		topBar.revalidate();
@@ -82,6 +82,10 @@ public class GuiManager {
 	}
 	
 	public void resizeYear() {
+		dimAll.yearView();
+		allDays.removeLabels();
+		allDays.addLabelsDate();
+		allDays.revalidate();
 		allDays.changeToYear();
 		topBar.showDays();
 		topBar.revalidate();
@@ -91,6 +95,8 @@ public class GuiManager {
 	}
 	
 	public void resizeDay() {
+		allDays.removeLabels();
+		allDays.addLabelsDateWithDayName();
 		allDays.changeToDay();
 		topBar.hideDays();
 		topBar.revalidate();
@@ -99,11 +105,39 @@ public class GuiManager {
 		window.pack();
 	}
 	
-	
+	public void refresh() {
+		allDays.revalidate();
+		topBar.revalidate();
+		side.revalidate();
+		scrollableDays.revalidate();
+		scrollableDays.getVerticalScrollBar().setValue(0);
+		window.revalidate();
+		window.pack();
+		window.revalidate();
+	}
 	//functions called for adding and removing grids
 	
-	public void addNode(Node add) {
+	public boolean addNode(Node add) {
+		String entry = (add.getColoredEventName()).substring(28);
+		String test;
+		if (!allDays.eventSquare[add.location].listModel.isEmpty()) {
+			try {
+				for(int i = 0; i < allDays.eventSquare[add.location].listModel.getSize(); i++) {
+					test = (String) allDays.eventSquare[add.location].listModel.elementAt(i);
+					test = test.substring(28);
+						if (entry.equals(test)) {
+							displayError("Duplicate Event Error.");
+							return false;
+						}
+				}
+			}
+			catch(Exception e){
+				System.out.println("Exception when trying check for duplicates: " + e);
+			}
+		}
+		
 		allDays.eventSquare[add.location].listModel.addElement(add.getColoredEventName());
+		return true;
 	}
 	
 	public void removeNode(Node toRemove) {

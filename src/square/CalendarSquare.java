@@ -16,7 +16,7 @@ public abstract class CalendarSquare extends JPanel{
 		super();
 		listModel = new DefaultListModel();
 		list = new JList(listModel);
-		this.add(list);
+		add(list);
 		this.setPreferredSize(cellSize);
 
 	}

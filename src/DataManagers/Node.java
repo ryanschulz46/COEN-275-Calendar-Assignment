@@ -24,7 +24,7 @@ public class Node {
 	}
 	
 	public String toString() {
-		return (""+date+" "+this.event+" "+ location);
+		return (""+date+" "+this.event);
 	}
 
 }

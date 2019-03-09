@@ -58,36 +58,10 @@ public class GridCal extends JPanel {
 			dateSquare[i] = new DateSquare(dim.dateCell);
 		}
 		
-		//Manually create the first two cells: Dec 30th and Dec 31st for 2018
-		dateSquare[0].listModel.addElement("Dec - 30");
-		dateSquare[1].listModel.addElement("Dec - 31");
-		
-		/*
-		 * Counter is incremented for dayOfYear[] array as the i and j cannot do this for us easily
-		 * Counter starts at 2, since we already added Dec30 and 31st
-		 * Outer loop increments between each month
-		 * Inner loop increments between the days of each month. monthData[i].getDays() ensures the for loop will not go beyond the number of days in each month
-		 */
-
-		counter = 2;
-
-		for (int i = 0; i < 12; i++) { //
-			for (int j = 0 ; j < monthData[i].getDays(); j++) { //
-				//If first day of the month, make the date yellow
-				if (j == 0) { 
-					dateSquare[counter].listModel.addElement("<html>" + "<font color='#FF0000'>" + monthData[i].getMonth()  + " - " + (j+1) + "</font></html>");
-				}
-				//If not the first day, make the date black.
-				else { 
-					dateSquare[counter].listModel.addElement("<html>" + "<font color='#000000'>" + monthData[i].getMonth()  + " - " + (j+1) + "</font></html>");	
-				}
-					counter++;
-			}
-		}
+	
 		
 		
-		
-		
+		addLabelsDate();
 		
 		
 		
@@ -119,7 +93,7 @@ public class GridCal extends JPanel {
 				
 				if (holidays.checkDate(i,j) == true){
 					//If the date's key we are checking is in the hashmap, add a label to its respective holiday panel
-				eventSquare[counter].listModel.addElement(holidays.getHoliday());
+				eventSquare[counter].listModel.addElement("<html>" + "<font color='#000000'>" + holidays.getHoliday() + "</font></html>");
 				}
 				counter++;
 			}
@@ -167,9 +141,102 @@ public class GridCal extends JPanel {
 	
 	
 	
+	
+	public void addLabelsDate() {
+		//Manually create the first two cells: Dec 30th and Dec 31st for 2018
+		dateSquare[0].listModel.addElement("Dec - 30");
+		dateSquare[1].listModel.addElement("Dec - 31");
+		
+		/*
+		 * Counter is incremented for dayOfYear[] array as the i and j cannot do this for us easily
+		 * Counter starts at 2, since we already added Dec30 and 31st
+		 * Outer loop increments between each month
+		 * Inner loop increments between the days of each month. monthData[i].getDays() ensures the for loop will not go beyond the number of days in each month
+		 */
+
+		counter = 2;
+
+		for (int i = 0; i < 12; i++) { //
+			for (int j = 0 ; j < monthData[i].getDays(); j++) { //
+				//If first day of the month, make the date yellow
+				if (j == 0) { 
+					dateSquare[counter].listModel.addElement("<html>" + "<font color='#FF0000'>" + monthData[i].getMonth()  + " - " + (j+1) + "</font></html>");
+				}
+				//If not the first day, make the date black.
+				else { 
+					dateSquare[counter].listModel.addElement("<html>" + "<font color='#000000'>" + monthData[i].getMonth()  + " - " + (j+1) + "</font></html>");	
+				}
+					counter++;
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void removeLabels() {
+		for (int i = 0; i< 367; i++) {
+			dateSquare[i].listModel.removeAllElements();
+		}
+		revalidation();
+	}
+	
+	public void revalidation() {
+		for (int i=0; i<367; i++) {
+			dateSquare[i].revalidate();
+			eventSquare[i].revalidate();
+			dateAndEvent[i].revalidate();
+		}
+		this.revalidate();
+	}
+	
+	
+	public void addLabelsDateWithDayName() {
+		//Manually create the first two cells: Dec 30th and Dec 31st for 2018
+		dateSquare[0].listModel.addElement("Sunday: Dec - 30");
+		dateSquare[1].listModel.addElement("Monday: Dec - 31");
+		
+		/*
+		 * Counter is incremented for dayOfYear[] array as the i and j cannot do this for us easily
+		 * Counter starts at 2, since we already added Dec30 and 31st
+		 * Outer loop increments between each month
+		 * Inner loop increments between the days of each month. monthData[i].getDays() ensures the for loop will not go beyond the number of days in each month
+		 */
+		String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+		counter = 2;
+		
+
+		for (int i = 0; i < 12; i++) { //
+			for (int j = 0 ; j < monthData[i].getDays(); j++) { //
+				//If first day of the month, make the date yellow
+				if (j == 0) { 
+					dateSquare[counter].listModel.addElement("<html>" + "<font color='#FF0000'>"+ daysOfWeek[(counter%7)] + ": "  + monthData[i].getMonth()  + " - " + (j+1) + "</font></html>");
+				}
+				//If not the first day, make the date black.
+				else { 
+					dateSquare[counter].listModel.addElement("<html>" + "<font color='#000000'>" + daysOfWeek[(counter%7)] + ": " + monthData[i].getMonth()  + " - " + (j+1) + "</font></html>");	
+				}
+					counter++;
+			}
+		}
+	}
+	
+	
 	public void changeToWeek() {
 		dim.weekView();
-		
+		this.setLayout(new GridLayout(53,7));
 		for(int i= 0; i< 367; i++) {
 			dateAndEvent[i].setPreferredSize(dim.gridCell);
 			eventSquare[i].setPreferredSize(dim.eventCell);
@@ -180,7 +247,7 @@ public class GridCal extends JPanel {
 	
 	public void changeToYear() {
 		dim.yearView();
-		
+		this.setLayout(new GridLayout(53,7));
 		for(int i= 0; i< 367; i++) {
 			dateAndEvent[i].setPreferredSize(dim.gridCell);
 			eventSquare[i].setPreferredSize(dim.eventCell);
@@ -191,12 +258,13 @@ public class GridCal extends JPanel {
 	
 	public void changeToDay() {
 		dim.dayView();
-		
+		this.setLayout(new GridLayout(367, 1));
 		for(int i= 0; i< 367; i++) {
 			dateAndEvent[i].setPreferredSize(dim.gridCell);
 			eventSquare[i].setPreferredSize(dim.eventCell);
 			dateAndEvent[i].revalidate();
 			eventSquare[i].revalidate();
+			
 		}
 	}
 

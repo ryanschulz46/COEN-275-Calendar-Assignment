@@ -31,7 +31,6 @@ public class SidePanel extends JPanel{
 				
 		
 		
-
 		this.setBackground(Color.BLACK);
 		this.setPreferredSize(GuiManager.dimAll.sidePanelSize);
 	}	
