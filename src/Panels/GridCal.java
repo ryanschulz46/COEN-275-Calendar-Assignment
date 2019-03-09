@@ -2,9 +2,9 @@ package Panels;
 import java.awt.*;
 import javax.swing.*;
 
+import DataManagers.DimensionManager;
 import DataManagers.HolidayManager;
 import DataManagers.Months;
-import calendar.DimensionManager;
 import square.*;
 
 import java.util.HashMap;
@@ -102,8 +102,7 @@ public class GridCal extends JPanel {
 		eventSquare = new CalendarSquare[367];
 		for(int i = 0; i<367; i++) {
 			eventSquare[i] = new EventSquare(dim.eventCell);
-			eventSquare[i].listModel.addElement("Test");
-		}
+			}
 	
 		/*
 		 * Counter starts at 2, like above, to avoid checking dates from the Dec 30, 2018 and Dec 31, 2018.

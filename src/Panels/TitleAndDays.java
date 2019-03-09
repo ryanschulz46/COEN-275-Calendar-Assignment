@@ -2,7 +2,7 @@ package Panels;
 import java.awt.*;
 import javax.swing.*;
 
-import calendar.DimensionManager;
+import DataManagers.DimensionManager;
 import calendar.GuiManager;
 
 public class TitleAndDays extends JPanel {

@@ -24,7 +24,7 @@ public class HolidayManager {
 		holidays.put(121, "MLK's Birthday");
 		holidays.put(218, "Washington's Birthday");
 		holidays.put(527, "Memorial Day");
-		holidays.put(604, "Independence Day");
+		holidays.put(704, "Independence Day");
 		holidays.put(902, "Labor Day");
 		holidays.put(1014, "Columbus Day");
 		holidays.put(1111, "Veterans Day");

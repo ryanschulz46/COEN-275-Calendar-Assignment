@@ -5,10 +5,8 @@ import java.awt.Dimension;
 
 import javax.swing.*;
 
-import DataManagers.Node;
-import Panels.GridCal;
-import Panels.SidePanel;
-import Panels.TitleAndDays;
+import DataManagers.*;
+import Panels.*;
 
 public class GuiManager {
 
@@ -41,7 +39,7 @@ public class GuiManager {
 		
 		allDays = new GridCal(dimAll); 
 		scrollableDays = new JScrollPane(allDays);
-		scrollableDays.getVerticalScrollBar().setUnitIncrement(16);
+		scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.calendarY);
 		//scrollableDays.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 		
 		
@@ -57,7 +55,7 @@ public class GuiManager {
 		//Initialize side panel
 		side = new SidePanel(this);
 		scrollableSide = new JScrollPane(side);
-		scrollableSide.getVerticalScrollBar().setUnitIncrement(16);
+		//scrollableSide.getVerticalScrollBar().setUnitIncrement(dimAll.calendarSize);
 		
 		
 		///Add Calendar and Side Panel to the JFrame!
@@ -69,6 +67,10 @@ public class GuiManager {
 		window.setResizable(false);
 		window.setVisible(true);
 	}
+	
+	
+	
+	//functions called for resizing grid
 
 	public void resizeWeek() {
 		allDays.changeToWeek();
@@ -83,7 +85,7 @@ public class GuiManager {
 		allDays.changeToYear();
 		topBar.showDays();
 		topBar.revalidate();
-		scrollableDays.getVerticalScrollBar().setUnitIncrement(16);
+		//scrollableDays.getVerticalScrollBar().setUnitIncrement(16);
 		scrollableDays.revalidate();
 		window.pack();
 	}
@@ -92,13 +94,24 @@ public class GuiManager {
 		allDays.changeToDay();
 		topBar.hideDays();
 		topBar.revalidate();
-		scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.calendarY);
+		//scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.calendarY);
 		scrollableDays.revalidate();
 		window.pack();
 	}
 	
+	
+	//functions called for adding and removing grids
+	
 	public void addNode(Node add) {
-		allDays.eventSquare[add.location].listModel.addElement(add.event);
+		allDays.eventSquare[add.location].listModel.addElement(add.getColoredEventName());
+	}
+	
+	public void removeNode(Node toRemove) {
+		allDays.eventSquare[toRemove.location].listModel.removeElement(toRemove.getColoredEventName());
+	}
+	
+	public void displayError(String errorMessage) {
+		JOptionPane.showMessageDialog(window, errorMessage);
 	}
 	
 }

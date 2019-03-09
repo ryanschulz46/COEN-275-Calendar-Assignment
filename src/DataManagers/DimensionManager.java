@@ -1,4 +1,4 @@
-package calendar;
+package DataManagers;
 
 import java.awt.Dimension;
 
@@ -17,41 +17,41 @@ public class DimensionManager {
 	public Dimension inputDate;
 	
 	
-	double frameX;//
-	double frameY;//
+	public double frameX;//
+	public double frameY;//
 	
 	//
-	double calendarX;//
-	double calendarY;
+	public double calendarX;//
+	public double calendarY;
 	
 
-	double topBarX;//
-	double topBarY;//
-	double titleY;//
-	double titleX;
+	public double topBarX;//
+	public double topBarY;//
+	public double titleY;//
+	public double titleX;
 	
 	
-	double cellX;//
-	double cellY;//
+	public double cellX;//
+	public double cellY;//
 	
-	double eventY;//
-	double dateY;//
+	public double eventY;//
+	public double dateY;//
 	
 	
-	double sideX;//
-	double sideY;//
+	public double sideX;//
+	public double sideY;//
 	
-	double inputTextY;
-	double inputTextX;
+	public double inputTextY;
+	public double inputTextX;
 	
-	double inputDateY;
-	double inputDateX;
+	public double inputDateY;
+	public double inputDateX;
 	
-	double historyY;
-	double historyX;
+	public double historyY;
+	public double historyX;
 	
-	double buttonY;
-	double buttonX;
+	public double buttonY;
+	public double buttonX;
 	
 	
 	public DimensionManager() {
@@ -96,9 +96,9 @@ public class DimensionManager {
 		
 		
 		
-		calendarX = 900;
+		calendarX = 1500;
 		dateY = 25;
-		eventY = 75;
+		eventY = calendarX/7 - dateY;
 		topBarY =  100;
 		sideX = 500;
 		cellX = calendarX/7;
@@ -107,7 +107,7 @@ public class DimensionManager {
 		buttonX= 100;
 		
 		
-		inputDateY = 100;
+		inputDateY = 50;
 		
 
 		
@@ -125,10 +125,10 @@ public class DimensionManager {
 		frameX = calendarX + sideX;
 		sideY = frameY;
 		titleY =  topBarY - dateY;
-		inputTextX = sideX*.5;
-		inputDateX = sideX*.5;
+		inputTextX = sideX*.8;
+		inputDateX = sideX*.8;
 		inputTextY = sideY*.2;
-		historyX= sideX*.5;
+		historyX= sideX*.8;
 		historyY= sideY*.2;
 		
 		
@@ -139,6 +139,10 @@ public class DimensionManager {
 		calendarSize.setSize(calendarX, calendarY);
 		JFrameSize.setSize(frameX, frameY);
 		sidePanelSize.setSize(sideX, sideY);
+		inputDate.setSize(inputDateX, inputDateY);
+		inputEvent.setSize(inputTextX, inputTextY);
+		history.setSize(historyX, historyY);
+		button.setSize(buttonX, buttonY);
 	}
 	
 	
