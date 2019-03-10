@@ -1,12 +1,12 @@
-package DataManagers;
+package datamanagers;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class HolidayManager {
 	
-	public Map<Integer, String> holidays;
-	public int dateKey;
+	private Map<Integer, String> holidays;
+	private int dateKey;
 	
 
 	public HolidayManager() {
@@ -37,6 +37,10 @@ public class HolidayManager {
 		return holidays.get(dateKey);
 	}
 
+	
+	/*
+	 * this function checks if the date indices match with holiday
+	 */
 	public boolean checkDate(int i, int j) {
 		dateKey = 100*(i+1)+(j+1);
 		if (holidays.containsKey(dateKey)){

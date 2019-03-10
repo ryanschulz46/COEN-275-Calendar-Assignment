@@ -1,26 +1,24 @@
-package Panels;
+package panels;
 import java.awt.*;
 import javax.swing.*;
+import calendar.GuiManager; //needs to access Gui Manager for dimensions
 
-import DataManagers.DimensionManager;
-import calendar.GuiManager;
+/*
+ * This class is the whole topbar of the calendar, which holds the days of the week, calendar title, and the SCU Logo
+ */
 
 public class TitleAndDays extends JPanel {
 	
-	JLabel[] daysLabel;
-	JPanel[] daysCell;
-	ImageIcon imageIcon;
-	JLabel label;
-	JLabel calTitle;
+	JLabel[] daysLabel; //array containing names of days of the week
+	JPanel[] daysCell; // days of week labels are contained in this panel
+	ImageIcon imageIcon; //image of scu logo
+	JLabel label; //JLabel that holds the scu logo image
+	JLabel calTitle; 
 	JPanel title;
 	
 	
-	public TitleAndDays(DimensionManager dim)
+	public TitleAndDays()
 	{
-
-		//Create dimension using passed through value to size this JPanel
-		
-		
 		this.setLayout(new GridLayout(1,7));
 
 		/*
@@ -34,7 +32,7 @@ public class TitleAndDays extends JPanel {
 		 */
 		
 		imageIcon = new ImageIcon(new ImageIcon("images/sculogo.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT));
-		label = new JLabel(imageIcon);
+		label = new JLabel(imageIcon); // add the image icon to a jlabel
 		
 		calTitle = new JLabel("2019");
 		calTitle.setForeground(Color.WHITE);
@@ -52,13 +50,10 @@ public class TitleAndDays extends JPanel {
 	}
 	
 	public void initializeDays() {
-		
-		
 		/*
 		 * Initialize the JLabels for each day
 		 * Create daysCell, which are JPanels that the JLabels will be added to
 		 */
-		
 		daysCell = new JPanel[7];
 		daysLabel = new JLabel[7];
 	
@@ -93,12 +88,16 @@ public class TitleAndDays extends JPanel {
 		}
 	}
 	
+	
+	//shows days of week on top bar
 	public void showDays() {
 		for (int i = 0; i < 7; i++) {
 			daysLabel[i].setVisible(true);
 		}
 	}
 	
+	
+	//hides days of week on top bar
 	public void hideDays() {
 		for (int i = 0; i < 7; i++) {
 			daysLabel[i].setVisible(false);

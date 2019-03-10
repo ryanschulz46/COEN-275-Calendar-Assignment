@@ -1,46 +1,47 @@
 package calendar;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-
 import javax.swing.*;
 
-import DataManagers.*;
-import Panels.*;
+import datamanagers.*;
+import panels.*;
 
 public class GuiManager {
 
-	public JFrame window;
-	public JPanel calendar;
-	public SidePanel side;
-	public TitleAndDays topBar;
-	public GridCal allDays;
-	public JScrollPane scrollableDays;
-	public JScrollPane scrollableSide;
+	
 	public static DimensionManager dimAll;
-	
-	
-	
+	private JFrame window;
+	private JPanel calendar;
+	private SidePanel side;
+	private TitleAndDays topBar;
+	private GridCal allDays;
+	private JScrollPane scrollableDays;
+	private JScrollPane scrollableSide;
 
 	
+
 	
 	public GuiManager() {
 		
 		
-		//Create dimensionManager to handle all dimensions of all JPanels and JFrame
+		//Create dimensionManager to handle all dynamic dimensions
 		dimAll = new DimensionManager(this);
 		
-		//Initialize topBar and the grid of days, and combine into one JPanel, Calendar
-		topBar= new TitleAndDays(dimAll);
+		
+		
+		
+		//Initialize topBar
+		topBar= new TitleAndDays();
 	
 		
 		
-		allDays = new GridCal(dimAll); 
+		//initialize grid cells
+		allDays = new GridCal(); 
 		scrollableDays = new JScrollPane(allDays);
-		scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.calendarY);
-		//scrollableDays.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+		scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.getCalendarY());
+
 		
-		
+		//combine grid cells and top bar into one calendar
 		calendar = new JPanel();
 		calendar.setLayout(new BorderLayout());
 		calendar.add(topBar, BorderLayout.NORTH);
@@ -52,7 +53,7 @@ public class GuiManager {
 		//Initialize side panel
 		side = new SidePanel(this);
 		scrollableSide = new JScrollPane(side);
-		//scrollableSide.getVerticalScrollBar().setUnitIncrement(dimAll.calendarSize);
+
 		
 		
 		///Add Calendar and Side Panel to the JFrame!
@@ -67,83 +68,107 @@ public class GuiManager {
 	
 	
 	
-	//functions called for resizing grid
-
+/*
+ * Functions triggered by radio buttons to resize everything
+ */
+	
 	public void resizeWeek() {
-		allDays.removeLabels();
-		allDays.addLabelsDate();
-		allDays.revalidate();
 		allDays.changeToWeek();
+		//removes all labels and re-adds them without day of week showing in each cell
+		allDays.addLabelsDate();
+		//show days of week on top bar
 		topBar.showDays();
-		topBar.revalidate();
-		scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.calendarY);
-		scrollableDays.revalidate();
-		window.pack();
+		guiRevalidation();
 	}
 	
 	public void resizeYear() {
-		dimAll.yearView();
-		allDays.removeLabels();
-		allDays.addLabelsDate();
-		allDays.revalidate();
 		allDays.changeToYear();
+		//removes all labels and re-adds them without day of week showing in each cell
+		allDays.addLabelsDate();
+		//show days of week on top bar
 		topBar.showDays();
-		topBar.revalidate();
-		//scrollableDays.getVerticalScrollBar().setUnitIncrement(16);
-		scrollableDays.revalidate();
-		window.pack();
+		guiRevalidation();
 	}
 	
 	public void resizeDay() {
-		allDays.removeLabels();
-		allDays.addLabelsDateWithDayName();
 		allDays.changeToDay();
+		//removes all labels and re-adds them with the day of week in each cell
+		allDays.addLabelsDateWithDayName();
+		//hide day of weeks on top bar
 		topBar.hideDays();
-		topBar.revalidate();
-		//scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.calendarY);
-		scrollableDays.revalidate();
-		window.pack();
+		guiRevalidation();
 	}
 	
+	//when resizing, we also need to reset back to Zero so the scroll works appropriately 
 	public void refresh() {
+		scrollableDays.getVerticalScrollBar().setValue(0);
+		side.refresh();
+		guiRevalidation();
+	}
+	
+	
+	//revalidates everything and repacks the frame
+	public void guiRevalidation() {
 		allDays.revalidate();
 		topBar.revalidate();
-		side.revalidate();
+		
+		scrollableDays.getVerticalScrollBar().setUnitIncrement((int) dimAll.getCalendarY());
 		scrollableDays.revalidate();
-		scrollableDays.getVerticalScrollBar().setValue(0);
+		side.revalidate();
 		window.revalidate();
 		window.pack();
 		window.revalidate();
 	}
-	//functions called for adding and removing grids
 	
+
+
+	
+	/*
+	 * functions called for adding and removing events in the grid
+	 * it returns true, and allows the event to be added to history if there is no duplicate
+	 * if there is a duplicate, it returns false, and does not add it to history
+	 */
 	public boolean addNode(Node add) {
+		//must remove first 28 characters of string that contain HTML color data
+		//this allows same events of different colors to be detected
 		String entry = (add.getColoredEventName()).substring(28);
 		String test;
-		if (!allDays.eventSquare[add.location].listModel.isEmpty()) {
+		
+		if (!allDays.eventSquare[add.getLocation()].listModel.isEmpty()) { //if not empty, check for duplicates
 			try {
-				for(int i = 0; i < allDays.eventSquare[add.location].listModel.getSize(); i++) {
-					test = (String) allDays.eventSquare[add.location].listModel.elementAt(i);
-					test = test.substring(28);
+				for(int i = 0; i < allDays.eventSquare[add.getLocation()].listModel.getSize(); i++) {
+					test = (String) allDays.eventSquare[add.getLocation()].listModel.elementAt(i);
+					test = test.substring(28); //remove HTML color data
 						if (entry.equals(test)) {
 							displayError("Duplicate Event Error.");
-							return false;
+							return false; //returns a failed add
 						}
 				}
 			}
 			catch(Exception e){
 				System.out.println("Exception when trying check for duplicates: " + e);
+				return false; //returns a failed add
 			}
 		}
 		
-		allDays.eventSquare[add.location].listModel.addElement(add.getColoredEventName());
-		return true;
+		allDays.eventSquare[add.getLocation()].listModel.addElement(add.getColoredEventName());
+		return true; //returns a successful add
 	}
 	
+	
+	/*
+	 * History list nodes contain index location in grid
+	 * Retrieves that location, and removes the node based on matching the string
+	 */
 	public void removeNode(Node toRemove) {
-		allDays.eventSquare[toRemove.location].listModel.removeElement(toRemove.getColoredEventName());
+		allDays.eventSquare[toRemove.getLocation()].listModel.removeElement(toRemove.getColoredEventName());
 	}
 	
+	
+	
+	
+	
+	////Error popup message on GUI
 	public void displayError(String errorMessage) {
 		JOptionPane.showMessageDialog(window, errorMessage);
 	}

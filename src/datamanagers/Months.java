@@ -1,7 +1,8 @@
-package DataManagers;
+package datamanagers;
 
 /*
  * This class simply stores the abbreviations and total number of days in each month
+ * This info is used for generating the grid
  */
 
 public class Months {
