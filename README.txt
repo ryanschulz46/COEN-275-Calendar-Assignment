@@ -1,4 +1,4 @@
-Name: Ryan Schulz
+Name: Ryan Schulz (W0952631)
 JDK Used: Oracle JDK Version 8 Update 181
 IDE Used: Eclipse IDE for Java Developers Version 2018-09 (4.90)
 Main File: Main.java
@@ -7,7 +7,6 @@ Load File: The image file is loaded in by the code ("TitleAndDays.java", Line 25
 
 Other Instructions:
 
-In Main.java, there is an integer "squareSize", which sets the size of the X & Y dimensions of the JFrame. This loads the calendar in a square shaped window.
-* Recommended to be at least 1000
-* HD 1920 x 1080: Recommend 1000
-* UHD 3840 x 2160: Recommend 1500 
+The calendar initially loads at a size meant for smaller screens (1024 x 768).
+However, in the side panel there is an increase/decrease button which will increase cell and frame size of the GUI (but no the text).
+Please adjust the size to your desire.
