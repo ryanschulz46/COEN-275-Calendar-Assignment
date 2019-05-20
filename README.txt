@@ -1,4 +1,4 @@
-Name: Ryan Schulz (W0952631)
+Name: Ryan Schulz
 JDK Used: Oracle JDK Version 8 Update 181
 IDE Used: Eclipse IDE for Java Developers Version 2018-09 (4.90)
 Main File: Main.java
